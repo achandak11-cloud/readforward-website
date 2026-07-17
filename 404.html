@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Read Forward</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #f0fdf4; }
+    .wrap {
+      height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #166534; text-align: center; padding: 24px;
+    }
+    h1 { font-size: 20px; margin: 16px 0 8px; }
+    p  { font-size: 15px; color: #15803d; margin: 0 0 20px; }
+    a.btn {
+      display: inline-block; background: #15803d; color: #fff;
+      text-decoration: none; padding: 12px 22px; border-radius: 9999px;
+      font-size: 15px; font-weight: 600;
+    }
+    .emoji { font-size: 40px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="emoji">📚</div>
+    <h1>Opening Read Forward…</h1>
+    <p>If the app didn't open, get it below.</p>
+    <a id="store" class="btn" href="https://readforward.in">Get Read Forward</a>
+  </div>
+
+  <script>
+    // GitHub Pages serves this file for any unmatched path, including the
+    // dynamic /book/<uuid> and /invite/<code> deep links. When the app IS
+    // installed, iOS/Android intercept the URL before the browser ever loads
+    // this page — so reaching here means the app is NOT installed (or the tap
+    // came from a context that bypasses app links). Send the user to the store.
+    var IOS_STORE     = "https://apps.apple.com/in/app/read-forward/id6767293889";
+    var ANDROID_STORE = "https://play.google.com/store/apps/details?id=in.readforward.app";
+    var LANDING       = "https://readforward.in";
+
+    var ua   = navigator.userAgent || "";
+    var path = window.location.pathname || "";
+    var isDeepLink = /^\/(book|invite)\//.test(path);
+
+    var target = LANDING;
+    if (/iPhone|iPad|iPod/i.test(ua))      target = IOS_STORE;
+    else if (/Android/i.test(ua))          target = ANDROID_STORE;
+
+    document.getElementById("store").setAttribute("href", target);
+
+    // Auto-forward only for real deep-link paths (never for a genuine 404 on
+    // the marketing site). Give app-link interception a beat to win first.
+    if (isDeepLink && target !== LANDING) {
+      setTimeout(function () { window.location.replace(target); }, 1200);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "99DB6RLRL8.in.readforward.app",
+        "paths": [ "/book/*", "/invite/*" ]
+      }
+    ]
+  }
+}
