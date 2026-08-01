@@ -5,132 +5,143 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — Read Forward</title>
   <meta name="description" content="Read Forward Privacy Policy — how we collect, use and protect your information." />
+  <meta name="theme-color" content="#15803d" />
+  <link rel="icon" type="image/png" href="assets/readforward-logo.png" />
+  <link rel="apple-touch-icon" href="assets/readforward-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
+    /* Futuristic (Aurora glass) — same language as the landing page.
+       Presentation only: the policy text below is unchanged. */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green: #15803d;
-      --green-dark: #166534;
-      --green-light: #f0fdf4;
-      --amber: #fbb009;
-      --text: #111827;
-      --muted: #6b7280;
-      --white: #ffffff;
+      --g50:#f0fdf4; --g100:#dcfce7; --g200:#bbf7d0; --g300:#86efac;
+      --g400:#4ade80; --g600:#16a34a; --g700:#15803d; --g800:#166534;
+      --amber600:#f97316;
+      --text:#111827; --muted:#6b7280; --line:#e5e7eb; --white:#ffffff;
+      --r-card:26px; --r-full:9999px;
     }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
-      background: var(--white);
+      background: var(--g50);
       line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── NAV ─────────────────────────────────────────── */
+    .aurora {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(60% 45% at 15% 5%,  rgba(134,239,172,.30) 0%, rgba(134,239,172,0) 70%),
+        radial-gradient(60% 45% at 85% 92%, rgba(74,222,128,.22)  0%, rgba(74,222,128,0)  70%),
+        radial-gradient(75% 60% at 50% 50%, rgba(187,247,208,.20) 0%, rgba(187,247,208,0) 70%),
+        var(--g50);
+    }
+
+    /* ── NAV — the floating frosted pill ─────────────── */
+    .nav-wrap { position: sticky; top: 0; z-index: 100; padding: 14px 16px 0; }
     nav {
-      background: var(--green);
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 1140px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(74,222,128,.24);
+      border-radius: 34px;
+      box-shadow: 0 18px 30px -22px rgba(21,128,61,.5);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
+      backdrop-filter: blur(18px) saturate(1.3);
+      padding: 10px 18px;
     }
     .nav-brand {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white);
-      text-decoration: none;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+      font-size: 18px; font-weight: 700; color: var(--g800); letter-spacing: -.02em;
     }
-    .nav-brand span { color: var(--amber); }
+    .nav-brand img { width: 32px; height: 32px; display: block; }
+    .nav-brand span { color: var(--amber600); }
     nav a.nav-link {
-      color: #bbf7d0;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
+      color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+      padding: 8px 16px; border-radius: var(--r-full); transition: color .15s, background .15s;
     }
-    nav a.nav-link:hover { color: var(--white); }
+    nav a.nav-link:hover { color: var(--g800); background: var(--g50); }
 
     /* ── HEADER ──────────────────────────────────────── */
-    .page-header {
-      background: var(--green-light);
-      border-bottom: 1px solid #d1fae5;
-      padding: 48px 24px;
-    }
-    .page-header-inner { max-width: 760px; margin: 0 auto; }
-    .page-header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+    .page-header { padding: clamp(44px, 7vw, 72px) 24px clamp(28px, 4vw, 40px); }
+    .page-header-inner { max-width: 800px; margin: 0 auto; }
+    .page-header h1 { font-size: clamp(30px, 5.5vw, 46px); font-weight: 700; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 10px; }
     .page-header p { color: var(--muted); font-size: 15px; }
 
     /* ── CONTENT ─────────────────────────────────────── */
-    .content {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 48px 24px 80px;
+    .content { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
+
+    .highlight-box, .toc, .policy-section {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(74,222,128,.28);
+      border-radius: var(--r-card);
+      box-shadow: 0 22px 34px -22px rgba(21,128,61,.3);
+      -webkit-backdrop-filter: blur(14px) saturate(1.25);
+      backdrop-filter: blur(14px) saturate(1.25);
     }
 
-    .toc {
-      background: var(--green-light);
-      border-left: 4px solid var(--green);
-      border-radius: 0 12px 12px 0;
-      padding: 20px 24px;
-      margin-bottom: 48px;
-    }
-    .toc h3 { font-size: 14px; font-weight: 700; color: var(--green); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .highlight-box { padding: 22px 26px; margin-bottom: 22px; font-size: 15px; }
+    .highlight-box strong { color: var(--g800); }
+
+    .toc { padding: 24px 28px; margin-bottom: 44px; }
+    .toc h3 { font-size: 12px; font-weight: 700; color: var(--g700); margin-bottom: 14px; text-transform: uppercase; letter-spacing: .1em; }
     .toc ol { padding-left: 20px; }
     .toc ol li { margin-bottom: 6px; }
-    .toc ol li a { color: var(--green-dark); font-size: 14px; text-decoration: none; }
+    .toc ol li a { color: var(--g800); font-size: 14.5px; text-decoration: none; }
     .toc ol li a:hover { text-decoration: underline; }
 
-    .policy-section { margin-bottom: 48px; }
+    .policy-section { padding: 30px 28px; margin-bottom: 22px; }
     .policy-section h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--green-dark);
-      margin-bottom: 16px;
-      padding-top: 8px;
-      border-top: 1px solid #e5e7eb;
+      font-size: 21px; font-weight: 700; letter-spacing: -.02em;
+      color: var(--g800); margin-bottom: 16px;
     }
-    .policy-section p { margin-bottom: 14px; font-size: 15px; }
-    .policy-section ul, .policy-section ol {
-      padding-left: 24px;
-      margin-bottom: 14px;
-    }
-    .policy-section ul li, .policy-section ol li {
-      font-size: 15px;
-      margin-bottom: 8px;
-    }
-    .policy-section strong { color: var(--text); }
-
-    .highlight-box {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 10px;
-      padding: 16px 20px;
-      margin-bottom: 14px;
-      font-size: 15px;
-    }
-    .highlight-box strong { color: #92400e; }
+    .policy-section p { margin-bottom: 14px; font-size: 15px; color: #374151; }
+    .policy-section ul, .policy-section ol { padding-left: 22px; margin-bottom: 14px; }
+    .policy-section ul li, .policy-section ol li { font-size: 15px; margin-bottom: 8px; color: #374151; }
+    .policy-section ul li::marker { color: var(--g400); }
+    .policy-section strong { color: var(--text); font-weight: 600; }
+    .policy-section a { color: var(--g700); }
 
     /* ── FOOTER ──────────────────────────────────────── */
-    footer {
-      background: #111827;
-      color: #9ca3af;
-      padding: 40px 24px;
-      text-align: center;
+    footer { background: var(--text); color: #9ca3af; padding: 48px 24px 40px; text-align: center; }
+    .footer-brand {
+      display: inline-flex; align-items: center; gap: 11px;
+      font-size: 19px; font-weight: 700; color: var(--white); letter-spacing: -.02em; margin-bottom: 10px;
     }
-    .footer-brand { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
-    .footer-brand span { color: var(--amber); }
+    .footer-brand img { width: 32px; height: 32px; }
+    .footer-brand span { color: var(--amber600); }
+    .footer-tag { font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--g300); font-weight: 600; margin-bottom: 20px; }
     .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
     .footer-links a { color: #9ca3af; text-decoration: none; font-size: 14px; }
     .footer-links a:hover { color: var(--white); }
     footer p { font-size: 13px; }
+
+    :focus-visible { outline: 3px solid var(--g400); outline-offset: 3px; border-radius: 6px; }
   </style>
 </head>
 <body>
 
+  <div class="aurora" aria-hidden="true"></div>
+
   <!-- NAV -->
-  <nav>
-    <a class="nav-brand" href="/">Read <span>Forward</span></a>
-    <a class="nav-link" href="/">← Back to Home</a>
-  </nav>
+  <div class="nav-wrap">
+    <nav>
+      <a class="nav-brand" href="/">
+        <img src="assets/readforward-logo.png" alt="" width="32" height="32" />
+        Read <span>Forward</span>
+      </a>
+      <a class="nav-link" href="/">← Back to Home</a>
+    </nav>
+  </div>
 
   <!-- HEADER -->
   <div class="page-header">
@@ -300,10 +311,14 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-brand">Read <span>Forward</span></div>
+    <div class="footer-brand">
+      <img src="assets/readforward-logo.png" alt="" width="32" height="32" />
+      Read <span>Forward</span>
+    </div>
+    <div class="footer-tag">Read. Grow. Illuminate.</div>
     <div class="footer-links">
       <a href="/">Home</a>
-      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
       <a href="mailto:support@readforward.in">Contact</a>
     </div>
     <p>© 2026 Read Forward. All rights reserved.</p>

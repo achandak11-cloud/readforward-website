@@ -3,512 +3,1143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Read Forward — Read. Share. Repeat.</title>
-  <meta name="description" content="Read Forward is a peer-to-peer book lending app. Borrow and lend physical books with people around you. Read more, spend less." />
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/achandak11-cloud/readforward-app/main/assets/images/readforward_logo.png" />
+  <title>Read Forward — The ecosystem for readers</title>
+  <meta name="description" content="Read Forward is the ecosystem for readers. Lend and borrow real books with readers near you, build a reading habit that sticks, and bring your whole community along. Available on iOS and Android." />
+  <meta name="theme-color" content="#15803d" />
+  <link rel="canonical" href="https://readforward.in/" />
+
+  <!-- Favicon / touch icon (local — the previous raw.githubusercontent URL 404'd) -->
+  <link rel="icon" type="image/png" href="assets/readforward-logo.png" />
+  <link rel="apple-touch-icon" href="assets/readforward-logo.png" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Read Forward" />
+  <meta property="og:url" content="https://readforward.in/" />
+  <meta property="og:title" content="Read Forward — The ecosystem for readers" />
+  <meta property="og:description" content="Lend and borrow real books with readers near you, build a reading habit that sticks, and bring your whole community along. Read. Grow. Illuminate." />
+  <meta property="og:image" content="https://readforward.in/assets/readforward-logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Read Forward — The ecosystem for readers" />
+  <meta name="twitter:description" content="Lend and borrow real books with readers near you, build a reading habit that sticks, and bring your whole community along." />
+  <meta name="twitter:image" content="https://readforward.in/assets/readforward-logo.png" />
+
+  <!-- Space Grotesk — the app's typeface -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
+    /* ══════════════════════════════════════════════════════════════════════
+       Read Forward — Futuristic (Aurora glass)
+
+       Ported from the app's design system (docs/16 + src/constants/tokens.ts):
+       frosted-glass surfaces, an accent-coloured neon edge, an aurora backdrop
+       and Space Grotesk type.
+
+       THREE SYSTEMS, NO ONE-OFFS
+       1. Spacing  — every gap/pad/margin comes from the --s* scale below, and
+                     every section shares one vertical rhythm (--sec). Sections
+                     own their BOTTOM padding only, so the gap between any two
+                     is exactly one --sec — never two stacked paddings.
+       2. Buttons  — one .btn base; variants change colour, sizes change padding.
+                     Store badges, the nav CTA and panel CTAs are all the same
+                     component, so radius/hover/transition can never drift.
+       3. Icons    — one stroke-SVG sprite (#i-*) at 1.75 weight in currentColor,
+                     mirroring the app's ui/Icon.tsx. No emoji in page chrome;
+                     emoji appears only inside the phone mockups, where the app
+                     itself renders it (the 🔥 streak badge).
+
+       One visual language, one core colour, per-feature accents. Green is the
+       app. A feature may carry its own hue so you read *where you are* without
+       being told — Readings is terracotta, Community is indigo, LitCoins is
+       purple. The accent is the ONLY thing that varies: every radius, inset,
+       blur and spacing value below is shared. Exactly as in the app, that is
+       expressed as data — set `data-accent` on any container and everything
+       inside it re-tints, because nothing names a brand colour directly.
+       ══════════════════════════════════════════════════════════════════════ */
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green: #15803d;
-      --green-dark: #166534;
-      --green-light: #f0fdf4;
-      --green-mid: #86efac;
-      --amber: #fbb009;
-      --text: #111827;
-      --muted: #6b7280;
-      --white: #ffffff;
+      /* ── Raw palette (mirrors tokens.ts `palette`) ── */
+      --g50:#f0fdf4; --g100:#dcfce7; --g200:#bbf7d0; --g300:#86efac;
+      --g400:#4ade80; --g600:#16a34a; --g700:#15803d; --g800:#166534; --g900:#14532d;
+
+      --amber400:#fbbf24; --amber500:#f59e0b; --amber600:#f97316;
+
+      --ink:#111827; --muted:#6b7280; --faint:#9ca3af; --line:#e5e7eb;
+      --surface:#f9fafb; --white:#ffffff;
+
+      /* ── Active accent (green by default, per tokens.accents.green) ── */
+      --acc:#15803d; --acc-mid:#166534; --acc-400:#4ade80; --acc-300:#86efac;
+      --acc-200:#bbf7d0; --acc-100:#dcfce7; --acc-50:#f0fdf4;
+      --bg-tint:#f0fdf4;
+
+      /* ── Radius scale (tokens.ts `radius`) ── */
+      --r-sm:8px; --r-md:10px; --r-lg:12px; --r-2xl:16px; --r-3xl:20px;
+      --r-4xl:24px; --r-card:26px; --r-full:9999px;
+
+      /* ── Spacing scale (tokens.ts `spacing`) — the ONLY source of gaps ── */
+      --s1:4px;  --s2:8px;  --s3:12px; --s4:16px; --s5:20px;
+      --s6:24px; --s7:28px; --s8:32px; --s10:40px; --s12:48px;
+
+      /* Vertical rhythm between sections, the card-grid gap, the two-column
+         gutter, and the inset of a large glass panel. Four values, used
+         everywhere — no section, grid or panel invents its own. */
+      --sec: clamp(64px, 8vw, 100px);
+      --gap: var(--s6);
+      --gutter: clamp(32px, 5vw, 68px);
+      --pad-panel: clamp(32px, 4.5vw, 52px);
+
+      --shell:1140px;
     }
 
-    html { scroll-behavior: smooth; }
+    /* Feature accents — data entries, exactly like `tokens.accents`. */
+    [data-accent="terracotta"] {
+      --acc:#c2410d; --acc-mid:#9a3412; --acc-400:#fb923c; --acc-300:#fdba74;
+      --acc-200:#fed7aa; --acc-100:#ffedd5; --acc-50:#fff7ed;
+      --bg-tint:#fffaf4;
+    }
+    [data-accent="indigo"] {
+      --acc:#4338ca; --acc-mid:#3730a3; --acc-400:#818cf8; --acc-300:#a5b4fc;
+      --acc-200:#c7d2fe; --acc-100:#e0e7ff; --acc-50:#eef2ff;
+      --bg-tint:#f8faff;
+    }
+    [data-accent="purple"] {
+      --acc:#7c3aed; --acc-mid:#5b21b6; --acc-400:#a78bfa; --acc-300:#c4b5fd;
+      --acc-200:#ddd6fe; --acc-100:#ede9fe; --acc-50:#f5f3ff;
+      --bg-tint:#faf8ff;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: var(--white);
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--g50);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ── NAV ─────────────────────────────────────────── */
+    /* ── ICONS ────────────────────────────────────────────────────────────
+       One sprite, one weight, one colour source. Sized by the parent's
+       font-size so a tile and its glyph can never drift apart.              */
+    .ico {
+      width: 1em; height: 1em; display: block; flex-shrink: 0;
+      fill: none; stroke: currentColor; stroke-width: 1.75;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ── AURORA BACKDROP ──────────────────────────────────────────────────
+       The three radial glows from `buildTheme().aurora`, fixed behind
+       everything. Non-interactive, exactly like AuroraBackground.tsx.        */
+    .aurora {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(60% 45% at 15% 5%,  rgba(134,239,172,.30) 0%, rgba(134,239,172,0) 70%),
+        radial-gradient(60% 45% at 85% 92%, rgba(74,222,128,.22)  0%, rgba(74,222,128,0)  70%),
+        radial-gradient(75% 60% at 50% 50%, rgba(187,247,208,.20) 0%, rgba(187,247,208,0) 70%),
+        var(--g50);
+    }
+
+    /* ── GLASS SURFACE ────────────────────────────────────────────────────
+       theme.card: rgba(255,255,255,.94) + neon accent edge + accent shadow.  */
+    .glass {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(74,222,128,.28);
+      border-radius: var(--r-card);
+      box-shadow: 0 22px 34px -20px rgba(21,128,61,.34);
+      -webkit-backdrop-filter: blur(14px) saturate(1.25);
+      backdrop-filter: blur(14px) saturate(1.25);
+    }
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .glass {
+        border-color: color-mix(in srgb, var(--acc-400) 28%, transparent);
+        box-shadow: 0 22px 34px -20px color-mix(in srgb, var(--acc) 34%, transparent);
+      }
+    }
+
+    .shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--s6); }
+
+    /* ── SECTION RHYTHM ───────────────────────────────────────────────────
+       Sections own their bottom padding only. The gap between any two is
+       therefore exactly one --sec — never a top and a bottom stacked.        */
+    section { padding: 0 0 var(--sec); position: relative; }
+
+    /* ── NAV — the floating frosted pill (layout/BottomNav, brought up top) ── */
+    .nav-wrap { position: sticky; top: 0; z-index: 100; padding: var(--s4) var(--s4) 0; }
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--green);
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: var(--shell); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(74,222,128,.24);
+      border-radius: var(--r-full);
+      box-shadow: 0 18px 30px -22px rgba(21,128,61,.5);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
+      backdrop-filter: blur(18px) saturate(1.3);
+      padding: var(--s2) var(--s2) var(--s2) var(--s5);
     }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
+    .nav-brand { display: flex; align-items: center; gap: var(--s3); text-decoration: none; flex-shrink: 0; }
+    .nav-brand img { width: 32px; height: 32px; display: block; }
+    .nav-word { font-size: 18px; font-weight: 700; color: var(--g800); letter-spacing: -.02em; }
+    .nav-word em { font-style: normal; color: var(--amber600); }
+    .nav-links { display: flex; align-items: center; gap: var(--s1); }
+    .nav-links a:not(.btn) {
+      color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+      padding: var(--s2) var(--s4); border-radius: var(--r-full);
+      transition: color .15s, background .15s;
     }
-    .nav-logo-text {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white);
-    }
-    .nav-logo-text span { color: var(--amber); }
-    nav a.nav-link {
-      color: #bbf7d0;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    nav a.nav-link:hover { color: var(--white); }
+    .nav-links a:not(.btn):hover, .nav-links a:not(.btn):focus-visible { color: var(--g800); background: var(--g50); }
+    @media (max-width: 880px) { .nav-links a:not(.btn) { display: none; } }
 
-    /* ── HERO ────────────────────────────────────────── */
-    .hero {
-      background: linear-gradient(160deg, var(--green) 0%, #16a34a 60%, #22c55e 100%);
-      color: var(--white);
-      padding: 80px 24px 100px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    /* ── TYPE ─────────────────────────────────────────────────────────────── */
+    .kicker {
+      display: inline-flex; align-items: center; gap: var(--s2);
+      font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--acc); background: var(--acc-50);
+      border: 1px solid rgba(74,222,128,.30);
+      padding: var(--s2) var(--s4); border-radius: var(--r-full); margin-bottom: var(--s5);
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 600px; height: 600px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 50%;
-      top: -200px; right: -200px;
-      pointer-events: none;
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .kicker { border-color: color-mix(in srgb, var(--acc-400) 34%, transparent); }
     }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #d1fae5;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(32px, 6vw, 56px);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-    .hero h1 span { color: var(--amber); }
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: #bbf7d0;
-      max-width: 560px;
-      margin: 0 auto 40px;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      background: var(--white);
-      color: var(--green-dark);
-      font-size: 15px;
-      font-weight: 700;
-      padding: 14px 28px;
-      border-radius: 12px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
-    .btn-secondary {
-      background: transparent;
-      color: var(--white);
-      font-size: 15px;
-      font-weight: 600;
-      padding: 14px 28px;
-      border-radius: 12px;
-      text-decoration: none;
-      border: 2px solid rgba(255,255,255,0.5);
-      transition: border-color 0.15s, background 0.15s;
-    }
-    .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
-
-    /* ── STATS BAR ───────────────────────────────────── */
-    .stats-bar {
-      background: var(--white);
-      border-bottom: 1px solid #e5e7eb;
-      padding: 28px 24px;
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      flex-wrap: wrap;
-    }
-    .stat-item { text-align: center; }
-    .stat-num {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--green);
-      line-height: 1;
-    }
-    .stat-lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
-
-    /* ── SECTION SHARED ──────────────────────────────── */
-    section { padding: 72px 24px; }
-    .section-inner { max-width: 1080px; margin: 0 auto; }
-    .section-tag {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(24px, 4vw, 38px);
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 48px;
+    .kicker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--acc); flex-shrink: 0; }
+    .kicker .dot.live { background: #22c55e; animation: pulse 2.2s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
+      70%  { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
     }
 
-    /* ── HOW IT WORKS ────────────────────────────────── */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 32px;
-      counter-reset: steps;
-    }
-    .step {
-      background: var(--green-light);
-      border-radius: 16px;
-      padding: 28px 24px;
-      position: relative;
-    }
-    .step-num {
-      width: 36px; height: 36px;
-      background: var(--green);
-      color: var(--white);
-      font-weight: 800;
-      font-size: 15px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .step h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .step p { font-size: 14px; color: var(--muted); }
-
-    /* ── FEATURES ────────────────────────────────────── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-    .feature-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 28px 24px;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
-    .feature-icon { font-size: 32px; margin-bottom: 14px; }
-    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 14px; color: var(--muted); }
-
-    /* ── LITCOINS ────────────────────────────────────── */
-    .litcoins-section { background: var(--green-light); }
-    .litcoins-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-    @media (max-width: 680px) { .litcoins-inner { grid-template-columns: 1fr; } }
-    .litcoins-card {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 4px 24px rgba(21,128,61,0.12);
-    }
-    .litcoins-card .coin-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fef9c3;
-      border-radius: 12px;
-      padding: 10px 18px;
-      font-weight: 700;
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
-    .litcoins-card ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .litcoins-card ul li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 15px;
-    }
-    .litcoins-card ul li::before {
-      content: '✓';
-      color: var(--green);
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
+    h1 { font-size: clamp(36px, 5.4vw, 60px); font-weight: 700; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+    h2 { font-size: clamp(28px, 4.2vw, 44px); font-weight: 700; line-height: 1.12; letter-spacing: -.03em; text-wrap: balance; }
+    h3 { font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+    .lede { font-size: clamp(16px, 1.9vw, 20px); color: var(--muted); line-height: 1.65; }
+    .grad {
+      background: linear-gradient(112deg, var(--g700) 0%, var(--g600) 42%, var(--amber600) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
 
-    /* ── DOWNLOAD ────────────────────────────────────── */
-    .download-section {
-      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
-      color: var(--white);
-      text-align: center;
-    }
-    .download-section .section-title { color: var(--white); }
-    .download-section .section-sub { color: #bbf7d0; margin-left: auto; margin-right: auto; }
-    .store-badges {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .store-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(255,255,255,0.12);
-      border: 1.5px solid rgba(255,255,255,0.3);
-      border-radius: 12px;
-      padding: 12px 22px;
-      text-decoration: none;
-      color: var(--white);
-      transition: background 0.15s;
-    }
-    .store-badge:hover { background: rgba(255,255,255,0.2); }
-    .store-badge-icon { font-size: 28px; }
-    .store-badge-text { text-align: left; }
-    .store-badge-text small { display: block; font-size: 11px; opacity: 0.8; }
-    .store-badge-text strong { font-size: 16px; font-weight: 700; }
+    .sec-head { max-width: 680px; margin-bottom: var(--s12); }
+    .sec-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+    .sec-head p { margin-top: var(--s4); }
 
-    /* ── FOOTER ──────────────────────────────────────── */
-    footer {
-      background: #111827;
-      color: #9ca3af;
-      padding: 40px 24px;
-      text-align: center;
+    /* ── BUTTONS — one component, three variants, two sizes ───────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--s3);
+      font-family: inherit; font-weight: 600; text-decoration: none; white-space: nowrap;
+      border-radius: var(--r-full); border: 1px solid transparent;
+      transition: transform .16s cubic-bezier(.34,1.56,.64,1), box-shadow .16s, background .16s;
     }
-    .footer-brand {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 12px;
+    .btn:hover { transform: translateY(-2px); }
+    .btn--sm { padding: var(--s3) var(--s5); font-size: 14px; }
+    .btn--md { padding: var(--s4) var(--s7); font-size: 15px; }
+    .btn--primary { background: var(--acc); color: #fff; box-shadow: 0 14px 26px -12px rgba(21,128,61,.8); }
+    .btn--ghost   { background: rgba(255,255,255,.75); color: var(--acc-mid); border-color: rgba(74,222,128,.45); }
+    .btn--ghost:hover { background: #fff; }
+    .btn--dark    { background: var(--ink); color: #fff; border-color: rgba(255,255,255,.1); box-shadow: 0 14px 26px -14px rgba(17,24,39,.8); }
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .btn--primary { box-shadow: 0 14px 26px -12px color-mix(in srgb, var(--acc) 80%, transparent); }
+      .btn--ghost { border-color: color-mix(in srgb, var(--acc-400) 45%, transparent); }
     }
-    .footer-brand span { color: var(--amber); }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
+
+    /* Store badges are .btn--dark with a two-line label — same radius, padding
+       rung, hover and transition as every other button on the page. */
+    .stores { display: flex; gap: var(--s3); flex-wrap: wrap; }
+    .store { padding: var(--s3) var(--s6) var(--s3) var(--s5); }
+    .store .ico-store { width: 26px; height: 26px; flex-shrink: 0; }
+    .store span { display: block; text-align: left; line-height: 1.25; }
+    .store small { display: block; font-size: 10.5px; opacity: .78; letter-spacing: .04em; text-transform: uppercase; font-weight: 500; }
+    .store strong { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+    .stores.on-dark .store { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.3); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+    .stores.on-dark .store:hover { background: rgba(255,255,255,.18); }
+
+    /* ── HERO ─────────────────────────────────────────────────────────────── */
+    .hero { padding-top: clamp(24px, 3vw, 44px); padding-bottom: 0; }
+    /* Logo and the "live" chip share one row — stacked, they cost ~90px of
+       column height and push the phone cluster out of vertical balance. */
+    .hero-topline { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s6); }
+    .hero-topline .kicker { margin-bottom: 0; }
+    .hero-logo {
+      width: clamp(54px, 6vw, 68px); height: auto; display: block;
+      filter: drop-shadow(0 12px 22px rgba(21,128,61,.28));
     }
-    .footer-links a {
-      color: #9ca3af;
-      text-decoration: none;
-      font-size: 14px;
+    .hero-grid { display: grid; grid-template-columns: 1.04fr .96fr; gap: var(--gutter); align-items: center; }
+    @media (max-width: 1040px) { .hero-grid { grid-template-columns: 1fr; } }
+    .hero h1 { margin-bottom: var(--s5); }
+    .brandline {
+      display: inline-block; margin-bottom: var(--s5);
+      font-size: clamp(14px, 1.9vw, 17px); font-weight: 600; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--g800);
     }
-    .footer-links a:hover { color: var(--white); }
-    footer p { font-size: 13px; }
+    .brandline i { font-style: normal; color: var(--amber600); }
+    .hero .lede { max-width: 540px; margin-bottom: var(--s7); }
+    .hero-actions { display: flex; flex-direction: column; gap: var(--s4); }
+
+    .meta-line {
+      display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4);
+      font-size: 12.5px; font-weight: 500; letter-spacing: .04em; color: var(--faint);
+    }
+    .meta-line b { color: var(--g800); font-weight: 600; }
+    .meta-line .sep { width: 4px; height: 4px; border-radius: 50%; background: var(--g300); }
+    @media (max-width: 520px) { .meta-line .sep { display: none; } }
+
+    /* ── DEVICE MOCKUPS ───────────────────────────────────────────────────── */
+    .devices { display: flex; justify-content: center; align-items: center; }
+    .device {
+      width: clamp(220px, 26vw, 274px); flex-shrink: 0;
+      background: #0d1117; border-radius: 38px; padding: 9px;
+      box-shadow: 0 40px 70px -32px rgba(21,128,61,.6), 0 0 0 1px rgba(17,24,39,.1);
+    }
+    .device.tilt-l { transform: rotate(-5deg) translateY(18px) scale(.92); z-index: 1; margin-right: -40px; }
+    .device.tilt-r { transform: rotate(5deg)  translateY(18px) scale(.92); z-index: 1; margin-left: -40px; }
+    .device.front  { z-index: 2; }
+    @media (max-width: 640px) { .device.tilt-l, .device.tilt-r { display: none; } }
+    .screen {
+      border-radius: 30px; overflow: hidden; background: var(--bg-tint);
+      padding: var(--s4) var(--s3) var(--s3); position: relative; min-height: 486px;
+      display: flex; flex-direction: column;
+    }
+    .screen::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(60% 40% at 15% 4%,  var(--acc-200) 0%, transparent 68%),
+        radial-gradient(60% 40% at 88% 94%, var(--acc-100) 0%, transparent 68%);
+      opacity: .75;
+    }
+    .screen > * { position: relative; }
+    .notch { width: 74px; height: 5px; border-radius: var(--r-full); background: rgba(17,24,39,.16); margin: 0 auto var(--s3); }
+    .scr-title { font-size: 19px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+    .scr-sub { font-size: 11.5px; color: var(--muted); margin-bottom: var(--s3); }
+
+    /* frosted card inside a phone screen */
+    .app-card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(74,222,128,.3);
+      border-radius: var(--r-2xl);
+      box-shadow: 0 10px 18px -12px rgba(21,128,61,.5);
+      padding: var(--s3); margin-bottom: var(--s3);
+    }
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .app-card {
+        border-color: color-mix(in srgb, var(--acc-400) 32%, transparent);
+        box-shadow: 0 10px 18px -12px color-mix(in srgb, var(--acc) 50%, transparent);
+      }
+    }
+    .book-row { display: flex; gap: var(--s3); }
+    .cover {
+      width: 52px; height: 78px; border-radius: 6px; flex-shrink: 0; overflow: hidden;
+      background: radial-gradient(120% 100% at 50% 26%, #1e6b39 0%, #14532d 100%);
+      box-shadow: 3px 3px 10px rgba(0,0,0,.3);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 4px 3px; position: relative;
+    }
+    .cover .strip {
+      position: absolute; top: 13px; left: 0; right: 0;
+      background: var(--amber400); color: var(--g800);
+      font-size: 4.6px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      text-align: center; padding: 1.5px 0;
+    }
+    .cover .ttl { font-size: 6px; font-weight: 600; color: #dcfce7; text-align: center; line-height: 1.3; margin-top: 15px; }
+    .book-meta { flex: 1; min-width: 0; }
+    .book-meta .t { font-size: 12px; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+    .book-meta .a { font-size: 10px; color: var(--muted); margin-bottom: 6px; }
+    .pill-row { display: flex; gap: 5px; flex-wrap: wrap; }
+    .pill { font-size: 8.5px; font-weight: 600; padding: 3px var(--s2); border-radius: var(--r-full); white-space: nowrap; }
+    .pill.ok { background: var(--g100); color: var(--g800); }
+    .pill.dist { background: #fff7ed; color: #92400e; border: 1px solid #fed7aa; }
+    .owner { display: flex; align-items: center; gap: 6px; margin-top: var(--s2); }
+    .ava { width: 20px; height: 20px; border-radius: 50%; background: var(--acc); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .owner > span:last-child { font-size: 9.5px; color: var(--muted); }
+
+    /* streak card */
+    .streak-head { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s3); }
+    .streak-badge {
+      background: var(--acc); color: #fff; border-radius: var(--r-full);
+      padding: 6px 13px; font-size: 13px; font-weight: 700; white-space: nowrap;
+    }
+    .streak-copy { font-size: 11px; font-weight: 600; color: var(--acc-mid); line-height: 1.35; }
+    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+    .day {
+      aspect-ratio: 1; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; background: rgba(255,255,255,.7);
+      border: 1px solid rgba(74,222,128,.28); color: var(--faint);
+    }
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .day { border-color: color-mix(in srgb, var(--acc-400) 30%, transparent); }
+    }
+    .day.on { background: var(--acc); color: #fff; border-color: var(--acc); }
+    .day.today { border-width: 2px; border-color: var(--acc); color: var(--acc); }
+    .prog { height: 6px; border-radius: var(--r-full); background: var(--acc-200); overflow: hidden; margin-top: var(--s2); }
+    .prog i { display: block; height: 100%; border-radius: var(--r-full); background: var(--acc); }
+    .prog-lbl { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); margin-top: 5px; }
+
+    /* community rows */
+    .comm-row { display: flex; align-items: center; gap: var(--s3); }
+    .comm-ico {
+      width: 34px; height: 34px; border-radius: var(--r-lg); flex-shrink: 0;
+      background: var(--acc-100); color: var(--acc);
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .comm-txt { min-width: 0; }
+    .comm-txt .t { display: block; font-size: 11.5px; font-weight: 600; letter-spacing: -.01em; line-height: 1.3; }
+    .comm-txt .s { display: block; font-size: 9.5px; color: var(--muted); }
+    .comm-tag { margin-left: auto; font-size: 8.5px; font-weight: 600; padding: 3px var(--s2); border-radius: var(--r-full); background: var(--acc-100); color: var(--acc-mid); white-space: nowrap; }
+
+    /* bottom nav inside the phone */
+    .dev-nav {
+      margin-top: auto; display: flex; align-items: center; justify-content: space-around;
+      background: rgba(255,255,255,.9); border: 1px solid rgba(74,222,128,.26);
+      border-radius: var(--r-4xl); padding: var(--s2) 6px; box-shadow: 0 10px 20px -14px rgba(21,128,61,.7);
+    }
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .dev-nav { border-color: color-mix(in srgb, var(--acc-400) 28%, transparent); }
+    }
+    .dev-nav .nav-i { font-size: 18px; color: var(--faint); }
+    .dev-nav .nav-i.on { color: var(--acc); }
+    .dev-nav .fab {
+      width: 34px; height: 34px; border-radius: 50%; background: var(--g700); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+      box-shadow: 0 6px 14px -4px rgba(21,128,61,.75); margin-top: -16px;
+    }
+
+    /* ── MANIFESTO ────────────────────────────────────────────────────────── */
+    .manifesto-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+    .manifesto .rule { width: 46px; height: 3px; border-radius: 2px; background: var(--g400); margin: 0 auto var(--s8); }
+    .manifesto p {
+      font-size: clamp(20px, 2.9vw, 31px); font-weight: 500; line-height: 1.45;
+      letter-spacing: -.022em; color: var(--g900); margin-bottom: var(--s5);
+    }
+    .manifesto p:last-of-type { margin-bottom: 0; }
+    .manifesto p.dim { color: var(--muted); font-weight: 400; font-size: clamp(18px, 2.5vw, 27px); }
+    .manifesto .turn { font-weight: 700; }
+
+    /* ── CARD GRIDS — pillars and steps share padding, gap and tile sizing ── */
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: var(--gap); }
+    .steps   { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: var(--gap); }
+    .pillar, .step { padding: var(--s8) var(--s6); }
+    .pillar { text-decoration: none; color: inherit; display: block; transition: transform .2s, box-shadow .2s; }
+    .pillar:hover { transform: translateY(-4px); }
+
+    /* One tile treatment for both the pillar icon and the step number. */
+    .tile {
+      width: 52px; height: 52px; border-radius: var(--r-2xl); margin-bottom: var(--s5);
+      background: var(--acc-100); border: 1px solid rgba(74,222,128,.3); color: var(--acc);
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .tile.num { background: var(--acc); border-color: var(--acc); color: #fff; font-size: 18px; font-weight: 700; }
+    @supports (color: color-mix(in srgb, red 50%, blue)) {
+      .tile { border-color: color-mix(in srgb, var(--acc-400) 34%, transparent); }
+    }
+    .pillar h3, .step h3 { margin-bottom: var(--s2); color: var(--acc-mid); }
+    .pillar p, .step p { font-size: 14.5px; color: var(--muted); }
+    .pillar .tag {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: var(--s4);
+      font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--acc);
+    }
+    .pillar .tag .ico { font-size: 13px; }
+
+    /* ── FEATURE BANDS ────────────────────────────────────────────────────── */
+    .band { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: center; }
+    .band.flip .band-visual { order: -1; }
+    @media (max-width: 920px) { .band, .band.flip { grid-template-columns: 1fr; } .band.flip .band-visual { order: 0; } }
+    .band h2 { color: var(--acc-mid); margin-bottom: var(--s5); }
+    .band-copy > .lede { margin-bottom: var(--s7); }
+    .band-copy > .lede:last-child { margin-bottom: 0; }
+    .ticks { list-style: none; display: flex; flex-direction: column; gap: var(--s4); }
+    .ticks li { display: flex; gap: var(--s3); align-items: flex-start; font-size: 15px; color: var(--muted); }
+    .ticks li .ico {
+      flex-shrink: 0; width: 22px; height: 22px; padding: 4px; border-radius: 50%;
+      background: var(--acc-100); color: var(--acc); stroke-width: 2.5; margin-top: 2px;
+    }
+    .ticks li b { font-weight: 600; color: var(--ink); }
+    .band-visual { display: flex; justify-content: center; }
+
+    /* ── PANELS ───────────────────────────────────────────────────────────── */
+    .panel { padding: var(--pad-panel); }
+    .panel-spaced { margin-top: var(--sec); }
+    .panel.center { text-align: center; }
+    .panel h2 { color: var(--acc-mid); margin-bottom: var(--s4); }
+    .panel.center > .lede { max-width: 640px; margin: 0 auto var(--s8); }
+    .cta-actions { display: flex; gap: var(--s3); justify-content: center; flex-wrap: wrap; }
+
+    /* ── DOWNLOAD ─────────────────────────────────────────────────────────── */
+    .download-inner {
+      background: linear-gradient(140deg, #14532d 0%, var(--g700) 52%, var(--g600) 100%);
+      border-radius: var(--r-card); padding: clamp(44px, 6vw, 76px) clamp(26px, 5vw, 64px);
+      color: #fff; text-align: center; position: relative; overflow: hidden;
+      box-shadow: 0 40px 70px -34px rgba(20,83,45,.85);
+    }
+    .download-inner::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(50% 40% at 12% 0%,   rgba(134,239,172,.3) 0%, transparent 70%),
+        radial-gradient(50% 45% at 92% 100%, rgba(251,191,36,.24) 0%, transparent 70%);
+    }
+    .download-inner > * { position: relative; }
+    .download-inner h2 { color: #fff; margin-bottom: var(--s4); }
+    .download-inner > p { color: #bbf7d0; font-size: clamp(15px, 1.8vw, 18px); max-width: 560px; margin: 0 auto var(--s8); }
+    .download-inner .stores { justify-content: center; }
+    .dl-foot { margin-top: var(--s6); font-size: 13px; color: rgba(220,252,231,.75); letter-spacing: .04em; }
+
+    /* ── FOOTER ───────────────────────────────────────────────────────────── */
+    footer { background: var(--ink); color: #9ca3af; padding: var(--s12) var(--s6) var(--s10); }
+    .foot-grid { max-width: var(--shell); margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: var(--s10); }
+    @media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr; gap: var(--s7); } }
+    .foot-brand { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s4); }
+    .foot-brand img { width: 34px; height: 34px; }
+    .foot-brand .w { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+    .foot-brand .w em { font-style: normal; color: var(--amber600); }
+    .foot-tag { font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--g300); font-weight: 600; margin-bottom: var(--s4); }
+    .foot-blurb { font-size: 14px; max-width: 340px; }
+    .foot-col h4 { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #6b7280; font-weight: 700; margin-bottom: var(--s4); }
+    .foot-col a { display: block; color: #9ca3af; text-decoration: none; font-size: 14px; padding: 5px 0; }
+    .foot-col a:hover { color: #fff; }
+    .foot-bar { max-width: var(--shell); margin: var(--s10) auto 0; padding-top: var(--s6); border-top: 1px solid #1f2937; font-size: 13px; display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+
+    /* ── REVEAL ON SCROLL ─────────────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s cubic-bezier(.26,1.2,.48,1), transform .6s cubic-bezier(.26,1.2,.48,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+    :focus-visible { outline: 3px solid var(--acc-400); outline-offset: 3px; border-radius: 6px; }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-brand" href="/">
-      <span class="nav-logo-text">Read <span>Forward</span></span>
-    </a>
-    <a class="nav-link" href="#download">Download App</a>
-  </nav>
+  <!-- ══ ICON SPRITE — one stroke set, mirroring the app's ui/Icon.tsx ═════ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-5-4-6-5.5-11C10.5 6 9.5 9 9.5 11c0 1.4-1 1.9-1.6 1.1C7.2 11.4 7 10.4 7 9.5 5.8 11.4 5 13 5 15a7 7 0 0 0 7 7Z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 5h6a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H3Z"/><path d="M21 5h-6a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H21Z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><path d="M12 18v4"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M6 2h12v7a6 6 0 0 1-12 0Z"/><path d="M9 22h6"/><path d="M12 15v7"/></symbol>
+    <symbol id="i-books" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+  </svg>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">📚 Peer-to-Peer Book Lending</div>
-    <h1>Read More.<br><span>Spend Less.</span></h1>
-    <p>Borrow and lend physical books with people around you. Turn your bookshelf into a community library.</p>
-    <div class="hero-cta">
-      <a href="#download" class="btn-primary">
-        ⬇️ Get the App
-      </a>
-      <a href="#how-it-works" class="btn-secondary">
-        How it works
-      </a>
-    </div>
-  </section>
+  <div class="aurora" aria-hidden="true"></div>
 
-  <!-- STATS BAR -->
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-num">📚</div>
-      <div class="stat-lbl">Books Shared</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">🤝</div>
-      <div class="stat-lbl">Happy Readers</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">🌱</div>
-      <div class="stat-lbl">Zero Waste</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">💰</div>
-      <div class="stat-lbl">Free to Use</div>
-    </div>
+  <!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+  <div class="nav-wrap">
+    <nav>
+      <a class="nav-brand" href="/">
+        <img src="assets/readforward-logo.png" alt="Read Forward" width="32" height="32" />
+        <span class="nav-word">Read <em>Forward</em></span>
+      </a>
+      <div class="nav-links">
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#lending">Lend &amp; Borrow</a>
+        <a href="#habit">Reading Habit</a>
+        <a href="#community">Communities</a>
+        <a href="#download" class="btn btn--primary btn--sm">Get the app</a>
+      </div>
+    </nav>
   </div>
 
-  <!-- HOW IT WORKS -->
-  <section id="how-it-works">
-    <div class="section-inner">
-      <div class="section-tag">Simple & Fast</div>
-      <h2 class="section-title">How Read Forward Works</h2>
-      <p class="section-sub">Getting a book is as easy as sending a message — no credit card, no subscription.</p>
+  <!-- ══ HERO ═════════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="hero-topline">
+          <img class="hero-logo" src="assets/readforward-logo.png" alt="Read Forward" width="68" height="68" />
+          <span class="kicker"><span class="dot live"></span> Live on iOS &amp; Android</span>
+        </div>
+        <h1>The ecosystem<br />for <span class="grad">readers</span>.</h1>
+        <div class="brandline">Read. <i>Grow.</i> Illuminate.</div>
+        <p class="lede">
+          Somewhere within a few kilometres of you, the book you've been meaning
+          to read is sitting on a stranger's shelf. Read Forward is how the two
+          of you finally meet — and what happens long after you turn the last page.
+        </p>
+        <div class="hero-actions">
+          <div class="stores">
+            <a class="btn btn--dark store" href="https://apps.apple.com/in/app/read-forward/id6767293889" target="_blank" rel="noopener">
+              <svg class="ico-store" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 14.25 3.51 5.63 9.05 5.35c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.05zM12.03 5.3C11.88 3.07 13.69 1.23 15.77 1c.29 2.58-2.34 4.5-3.74 4.3z"/></svg>
+              <span><small>Download on the</small><strong>App Store</strong></span>
+            </a>
+            <a class="btn btn--dark store" href="https://play.google.com/store/apps/details?id=in.readforward.app" target="_blank" rel="noopener">
+              <svg class="ico-store" viewBox="0 0 24 24" aria-hidden="true">
+                <polygon points="3.6,1.8 13.8,12 3.6,22.2" fill="#00a0ff"/>
+                <polygon points="3.6,1.8 17.0,9.4 13.8,12" fill="#00e676"/>
+                <polygon points="17.0,9.4 20.8,12 17.0,14.6 13.8,12" fill="#ffce00"/>
+                <polygon points="3.6,22.2 17.0,14.6 13.8,12" fill="#ff3a44"/>
+              </svg>
+              <span><small>Get it on</small><strong>Google Play</strong></span>
+            </a>
+          </div>
+          <p class="meta-line">
+            <b>iOS &amp; Android</b><span class="sep"></span>
+            <span>Real books, hand to hand</span><span class="sep"></span>
+            <span>Readers a few streets away</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Three app screens: terracotta Readings · green Home · indigo Communities -->
+      <div class="devices">
+        <div class="device tilt-l" data-accent="terracotta" aria-hidden="true">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="scr-title">Readings</div>
+            <div class="scr-sub">Your habit, day by day</div>
+            <div class="app-card">
+              <div class="streak-head">
+                <span class="streak-badge">🔥 12</span>
+                <span class="streak-copy">You are on a 12 day streak! 🎉</span>
+              </div>
+              <div class="days">
+                <div class="day on">M</div><div class="day on">T</div><div class="day on">W</div>
+                <div class="day on">T</div><div class="day on">F</div><div class="day today">S</div><div class="day">S</div>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">Sapiens</div></div>
+                <div class="book-meta">
+                  <div class="t">Sapiens</div>
+                  <div class="a">Yuval Noah Harari</div>
+                  <div class="prog"><i style="width:64%"></i></div>
+                  <div class="prog-lbl"><span>page 288</span><span>64%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="device front" aria-hidden="true">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="scr-title">Near you</div>
+            <div class="scr-sub">18 books within 5 km</div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">The Midnight Library</div></div>
+                <div class="book-meta">
+                  <div class="t">The Midnight Library</div>
+                  <div class="a">Matt Haig</div>
+                  <div class="pill-row"><span class="pill ok">Available</span><span class="pill dist">1.2 km</span></div>
+                  <div class="owner"><span class="ava">A</span><span>Ananya · Koregaon Park</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">Atomic Habits</div></div>
+                <div class="book-meta">
+                  <div class="t">Atomic Habits</div>
+                  <div class="a">James Clear</div>
+                  <div class="pill-row"><span class="pill ok">Available</span><span class="pill dist">3.4 km</span></div>
+                  <div class="owner"><span class="ava">R</span><span>Rohan · Baner</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="dev-nav">
+              <svg class="ico nav-i on"><use href="#i-home"/></svg>
+              <svg class="ico nav-i"><use href="#i-swap"/></svg>
+              <span class="fab"><svg class="ico"><use href="#i-plus"/></svg></span>
+              <svg class="ico nav-i"><use href="#i-book"/></svg>
+              <svg class="ico nav-i"><use href="#i-user"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="device tilt-r" data-accent="indigo" aria-hidden="true">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="scr-title">Communities</div>
+            <div class="scr-sub">Your people, your books</div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-books"/></svg></span>
+                <span class="comm-txt"><span class="t">Pune Readers Club</span><span class="s">1,240 members</span></span>
+                <span class="comm-tag">Joined</span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-mic"/></svg></span>
+                <span class="comm-txt"><span class="t">Author meetup · Sat</span><span class="s">32 going</span></span>
+                <span class="comm-tag">Event</span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-chat"/></svg></span>
+                <span class="comm-txt"><span class="t">Chapter 7 — thoughts?</span><span class="s">18 replies</span></span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-trophy"/></svg></span>
+                <span class="comm-txt"><span class="t">Monsoon Challenge</span><span class="s">Day 9 of 30</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MANIFESTO ════════════════════════════════════════════════════════ -->
+  <section class="manifesto">
+    <div class="shell">
+      <div class="manifesto-inner reveal">
+        <div class="rule"></div>
+        <p>A book you loved, read once and shelved forever, is a small tragedy.</p>
+        <p class="dim">
+          Multiply it by every shelf in your city and you have a library the size
+          of a warehouse — locked, unlit, and quietly forgotten.
+        </p>
+        <p><span class="turn">Read Forward turns the lights on.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ECOSYSTEM — FOUR PILLARS ═════════════════════════════════════════ -->
+  <section id="ecosystem">
+    <div class="shell">
+      <div class="sec-head center reveal">
+        <span class="kicker"><span class="dot"></span> The whole of it</span>
+        <h2>The complete reading lifecycle. One <span class="grad">ecosystem</span>.</h2>
+        <p class="lede">
+          Most reading apps pick a single job and stop there — a catalogue, or a
+          tracker, or a forum. Readers don't live in one of those. You find a
+          book. You finish a book. You keep going. You tell someone. And then it
+          begins again, with the next one. Read Forward is built the way reading
+          actually happens.
+        </p>
+      </div>
+
+      <div class="pillars">
+        <a class="glass pillar reveal" href="#lending">
+          <div class="tile"><svg class="ico"><use href="#i-swap"/></svg></div>
+          <h3>Lend &amp; Borrow</h3>
+          <p>Your shelf becomes a lending library the moment you join one. Find the book you want a few streets away, ask for it in a tap, and meet the person who loved it first.</p>
+          <span class="tag">How lending works <svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+
+        <a class="glass pillar reveal" href="#habit" data-accent="terracotta">
+          <div class="tile"><svg class="ico"><use href="#i-flame"/></svg></div>
+          <h3>Reading Habit</h3>
+          <p>Four pages count. Log them, and the streak holds. What you get back is a calendar filling up with days you chose a book over a screen — and the pull to keep it unbroken.</p>
+          <span class="tag">Keep the streak <svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+
+        <a class="glass pillar reveal" href="#shelves" data-accent="terracotta">
+          <div class="tile"><svg class="ico"><use href="#i-book"/></svg></div>
+          <h3>Reading &amp; Read</h3>
+          <p>Two shelves, no spreadsheet. What you're on sits at the top. What you've closed stays below — a year of your reading, in one place, growing.</p>
+          <span class="tag">Your shelves <svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+
+        <a class="glass pillar reveal" href="#community" data-accent="indigo">
+          <div class="tile"><svg class="ico"><use href="#i-users"/></svg></div>
+          <h3>Communities</h3>
+          <p>The club that meets on Saturdays. The campus society. The eight people in your building who all read. Each gets a home — with events, arguments about chapter seven, and a shelf they share.</p>
+          <span class="tag">Bring yours <svg class="ico"><use href="#i-arrow"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LEND & BORROW (green) ════════════════════════════════════════════ -->
+  <section id="lending">
+    <div class="shell band reveal">
+      <div class="band-copy">
+        <span class="kicker"><span class="dot"></span> Lend &amp; Borrow</span>
+        <h2>Your bookshelf, quietly working.</h2>
+        <p class="lede">
+          Turn around and count the books you've already finished. Every one of
+          them is doing nothing. Three streets away, someone is putting off
+          buying that exact title. Read Forward puts the two of you in the same
+          room — and it costs you the walk to the café where you hand it over.
+        </p>
+        <ul class="ticks">
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Nearest first, always.</b> The feed is ranked by real distance, and every card tells you how far — 700 m, not "in your area".</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Listing takes seconds.</b> Point your camera at the barcode. Cover, author and blurb arrive on their own.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Nobody loses a book.</b> A one-time code seals the handover, so both of you always know exactly where it is.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Then it keeps going.</b> Finished a borrowed book? Send it straight to the next reader instead of back to the shelf it came from.</span></li>
+        </ul>
+      </div>
+      <div class="band-visual">
+        <div class="device front" aria-hidden="true">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="scr-title">Near you</div>
+            <div class="scr-sub">Ranked by distance</div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">Ikigai</div></div>
+                <div class="book-meta">
+                  <div class="t">Ikigai</div>
+                  <div class="a">Héctor García</div>
+                  <div class="pill-row"><span class="pill ok">Available</span><span class="pill dist">700 m</span></div>
+                  <div class="owner"><span class="ava">M</span><span>Meera · Aundh</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">Shantaram</div></div>
+                <div class="book-meta">
+                  <div class="t">Shantaram</div>
+                  <div class="a">Gregory D. Roberts</div>
+                  <div class="pill-row"><span class="pill ok">Available</span><span class="pill dist">2.1 km</span></div>
+                  <div class="owner"><span class="ava">K</span><span>Kabir · Kothrud</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">Educated</div></div>
+                <div class="book-meta">
+                  <div class="t">Educated</div>
+                  <div class="a">Tara Westover</div>
+                  <div class="pill-row"><span class="pill ok">Available</span><span class="pill dist">4.8 km</span></div>
+                  <div class="owner"><span class="ava">S</span><span>Sana · Viman Nagar</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="dev-nav">
+              <svg class="ico nav-i on"><use href="#i-home"/></svg>
+              <svg class="ico nav-i"><use href="#i-swap"/></svg>
+              <span class="fab"><svg class="ico"><use href="#i-plus"/></svg></span>
+              <svg class="ico nav-i"><use href="#i-book"/></svg>
+              <svg class="ico nav-i"><use href="#i-user"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ READING HABIT (terracotta) ═══════════════════════════════════════ -->
+  <section id="habit" data-accent="terracotta">
+    <div class="shell band flip reveal">
+      <div class="band-copy">
+        <span class="kicker"><span class="dot"></span> Reading Habit</span>
+        <h2>Reading doesn't fail on ambition.<br />It fails on Tuesdays.</h2>
+        <p class="lede">
+          Nobody abandons a book on the first night. It goes quietly, on an
+          ordinary evening, somewhere around page forty. Read Forward's only job
+          is to make the next four pages the easiest thing you do today — and
+          then to show you the receipts, night after night, until stopping feels
+          worse than continuing.
+        </p>
+        <ul class="ticks">
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>One swipe to log.</b> Pages or percentage — whichever way you actually think about a book.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>A streak you can see.</b> Seven days at a glance, the full month behind it, your longest run marked.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Reminders that read the room.</b> Pick your hour. Read before it, and the nudge never arrives.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>A month, summarised.</b> Days read, pages turned, books closed. Quiet, honest, and nobody's business but yours.</span></li>
+        </ul>
+      </div>
+      <div class="band-visual">
+        <div class="device front" aria-hidden="true">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="scr-title">Readings</div>
+            <div class="scr-sub">July summary</div>
+            <div class="app-card">
+              <div class="streak-head">
+                <span class="streak-badge">🔥 28</span>
+                <span class="streak-copy">You are on a 28 day streak! 🎉</span>
+              </div>
+              <div class="days">
+                <div class="day on">M</div><div class="day on">T</div><div class="day on">W</div>
+                <div class="day on">T</div><div class="day on">F</div><div class="day on">S</div><div class="day today">S</div>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">The Alchemist</div></div>
+                <div class="book-meta">
+                  <div class="t">The Alchemist</div>
+                  <div class="a">Paulo Coelho</div>
+                  <div class="prog"><i style="width:82%"></i></div>
+                  <div class="prog-lbl"><span>page 134</span><span>82%</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="book-row">
+                <div class="cover"><div class="strip">Read Forward</div><div class="ttl">Deep Work</div></div>
+                <div class="book-meta">
+                  <div class="t">Deep Work</div>
+                  <div class="a">Cal Newport</div>
+                  <div class="prog"><i style="width:31%"></i></div>
+                  <div class="prog-lbl"><span>page 92</span><span>31%</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="dev-nav">
+              <svg class="ico nav-i"><use href="#i-home"/></svg>
+              <svg class="ico nav-i"><use href="#i-swap"/></svg>
+              <span class="fab"><svg class="ico"><use href="#i-plus"/></svg></span>
+              <svg class="ico nav-i on"><use href="#i-book"/></svg>
+              <svg class="ico nav-i"><use href="#i-user"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SHELVES (terracotta) ═════════════════════════════════════════════ -->
+  <section id="shelves" data-accent="terracotta">
+    <div class="shell">
+      <div class="sec-head center reveal">
+        <span class="kicker"><span class="dot"></span> Reading &amp; Read</span>
+        <h2>The year you read, kept in one place.</h2>
+        <p class="lede">
+          Ask someone what they read last year and watch them struggle. Not
+          because it didn't matter — because nothing was keeping count. What
+          you're reading now sits at the top. What you've closed stays below,
+          and by December it's a list you'll want to show someone.
+        </p>
+      </div>
       <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3>List Your Books</h3>
-          <p>Add books sitting on your shelf that you're happy to lend out to fellow readers.</p>
+        <div class="glass step reveal"><div class="tile num">1</div><h3>Open it</h3><p>Scan, search or type — the book you started tonight is on your shelf in seconds.</p></div>
+        <div class="glass step reveal"><div class="tile num">2</div><h3>Keep going</h3><p>Log the pages. The streak looks after itself, and the app stays out of your way.</p></div>
+        <div class="glass step reveal"><div class="tile num">3</div><h3>Close it</h3><p>Mark it read and it moves across to the shelf of everything you've finished.</p></div>
+        <div class="glass step reveal"><div class="tile num">4</div><h3>Let it go</h3><p>One tap puts a finished book back in circulation, waiting for whoever needs it next.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ COMMUNITIES (indigo) ═════════════════════════════════════════════ -->
+  <section id="community" data-accent="indigo">
+    <div class="shell band reveal">
+      <div class="band-copy">
+        <span class="kicker"><span class="dot"></span> Communities</span>
+        <h2>Reading is a solitary act.<br />It was never meant to be a lonely one.</h2>
+        <p class="lede">
+          The best part of a book is the hour afterwards, when you find someone
+          who has also read it. Read Forward isn't built only for readers — it's
+          built for the groups they belong to. The Saturday club. The campus
+          society. The neighbourhood library. Each gets a home of its own, and
+          together they become something none of them could be alone: a city of
+          readers who can actually find each other.
+        </p>
+        <ul class="ticks">
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>A home, not a group chat.</b> Members, shelves, and everything your community is reading — in one place that doesn't scroll away by morning.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Evenings worth turning up to.</b> Meetups, author sessions, read-alongs and swaps, with RSVPs so you know who's coming.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Arguments about chapter seven.</b> Threads that live under the book itself, so the good discussion is still there in a year.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>Reading as a team sport.</b> Group challenges and shared milestones — because the streak is easier when eighty people are on it with you.</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span><b>A shelf you all own.</b> Members lend to each other first, and the club's books stay in circulation instead of in cupboards.</span></li>
+        </ul>
+      </div>
+      <div class="band-visual">
+        <div class="device front" aria-hidden="true">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="scr-title">Pune Readers Club</div>
+            <div class="scr-sub">1,240 members · 312 books</div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-mic"/></svg></span>
+                <span class="comm-txt"><span class="t">Author evening — Sat 7pm</span><span class="s">Pagdandi, Baner · 32 going</span></span>
+                <span class="comm-tag">RSVP</span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-chat"/></svg></span>
+                <span class="comm-txt"><span class="t">Midnight Library — Ch. 7</span><span class="s">18 replies · 2h ago</span></span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-trophy"/></svg></span>
+                <span class="comm-txt"><span class="t">Monsoon Challenge</span><span class="s">Day 9 of 30 · 84 reading</span></span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="comm-row">
+                <span class="comm-ico"><svg class="ico"><use href="#i-books"/></svg></span>
+                <span class="comm-txt"><span class="t">Club shelf</span><span class="s">312 books to borrow</span></span>
+                <span class="comm-tag">Browse</span>
+              </div>
+            </div>
+            <div class="dev-nav">
+              <svg class="ico nav-i"><use href="#i-home"/></svg>
+              <svg class="ico nav-i"><use href="#i-swap"/></svg>
+              <span class="fab"><svg class="ico"><use href="#i-plus"/></svg></span>
+              <svg class="ico nav-i"><use href="#i-book"/></svg>
+              <svg class="ico nav-i on"><use href="#i-users"/></svg>
+            </div>
+          </div>
         </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3>Request a Book</h3>
-          <p>Browse books near you and send a borrow request. The owner gets notified instantly.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3>Exchange &amp; Read</h3>
-          <p>Coordinate delivery or pickup. Read the book, then send it forward to the next reader.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <h3>Earn Litcoins</h3>
-          <p>Every book you lend earns you Litcoins — use them to borrow more books for free.</p>
+      </div>
+    </div>
+
+    <div class="shell panel-spaced">
+      <div class="glass panel center reveal">
+        <h2>You already run one of these.</h2>
+        <p class="lede">
+          A club, a college society, a library, eight colleagues who keep
+          swapping paperbacks. We're bringing those communities onto Read Forward
+          one at a time, and we'd rather build yours with you than hand you a
+          settings page. Tell us who you are and we'll do the setting up.
+        </p>
+        <div class="cta-actions">
+          <a class="btn btn--primary btn--md" href="mailto:support@readforward.in?subject=Bring%20our%20community%20to%20Read%20Forward">Bring your community</a>
+          <a class="btn btn--ghost btn--md" href="#download">Get the app first</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section style="background: #f9fafb;" id="features">
-    <div class="section-inner">
-      <div class="section-tag">Why Read Forward</div>
-      <h2 class="section-title">Everything you need to share books</h2>
-      <p class="section-sub">Built for readers who believe books are meant to be shared, not stored.</p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🔍</div>
-          <h3>Discover Local Books</h3>
-          <p>Find books available near you. Browse by genre, author, or title — all from people in your city.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔔</div>
-          <h3>Real-Time Notifications</h3>
-          <p>Get instant alerts when your request is accepted, when a book is on its way, or when someone wants your book.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📖</div>
-          <h3>Track Your Library</h3>
-          <p>See all the books you own, have lent out, and have borrowed — all in one place.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🤝</div>
-          <h3>Trusted Community</h3>
-          <p>Connect with verified readers. Every exchange builds trust and grows the reading community.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🌱</div>
-          <h3>Sustainable Reading</h3>
-          <p>Give every book a longer life. Reduce waste by keeping books in circulation instead of on dusty shelves.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📲</div>
-          <h3>Share a Book Link</h3>
-          <p>Share any book directly via a link. Recipients can open it straight to the book detail in the app.</p>
-        </div>
+  <!-- ══ HOW IT WORKS (green) ═════════════════════════════════════════════ -->
+  <section id="how">
+    <div class="shell">
+      <div class="sec-head center reveal">
+        <span class="kicker"><span class="dot"></span> Start to finish</span>
+        <h2>Four steps, and the first one takes a minute.</h2>
+        <p class="lede">From the book on your shelf tonight to the reader who needed it.</p>
+      </div>
+      <div class="steps">
+        <div class="glass step reveal"><div class="tile num">1</div><h3>Put a book up</h3><p>Scan the barcode on something you've finished. It's visible to readers near you before you've put it back down.</p></div>
+        <div class="glass step reveal"><div class="tile num">2</div><h3>Ask for one</h3><p>Browse what's close, tap request. The person who owns it hears about it straight away.</p></div>
+        <div class="glass step reveal"><div class="tile num">3</div><h3>Meet them</h3><p>Hand it over in person and confirm with a one-time code. That's the whole ceremony.</p></div>
+        <div class="glass step reveal"><div class="tile num">4</div><h3>Read it, then let it go</h3><p>Log your pages, hold your streak, and send the book on to whoever's next.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- LITCOINS -->
-  <section class="litcoins-section">
-    <div class="section-inner">
-      <div class="litcoins-inner">
-        <div>
-          <div class="section-tag">In-App Currency</div>
-          <h2 class="section-title">Meet Litcoins 💰</h2>
-          <p class="section-sub">Read Forward's reward system that makes book sharing even more rewarding.</p>
-        </div>
-        <div class="litcoins-card">
-          <div class="coin-badge">💰 Litcoins</div>
-          <ul>
-            <li>Earn Litcoins every time you lend a book</li>
-            <li>Spend Litcoins to borrow books from others</li>
-            <li>Invite friends and earn bonus Litcoins</li>
-            <li>No real money involved — it's a karma economy</li>
+  <!-- ══ LITCOINS (purple) ════════════════════════════════════════════════ -->
+  <section id="litcoins" data-accent="purple">
+    <div class="shell">
+      <div class="glass panel reveal">
+        <div class="band">
+          <div class="band-copy">
+            <span class="kicker"><span class="dot"></span> In-app currency</span>
+            <h2>Generosity, gently kept score of.</h2>
+            <p class="lede">
+              LitCoins are what a lending community runs on instead of money.
+              Give a book to someone who needed it and you've earned the right to
+              ask for one back. That's the entire economy — and no real money
+              ever touches it.
+            </p>
+          </div>
+          <ul class="ticks">
+            <li><svg class="ico"><use href="#i-check"/></svg><span><b>Earned</b> every time a book of yours ends up in the right hands.</span></li>
+            <li><svg class="ico"><use href="#i-check"/></svg><span><b>Spent</b> when it's your turn to ask.</span></li>
+            <li><svg class="ico"><use href="#i-check"/></svg><span><b>Awarded</b> for finishing a book, and for streaks that hold.</span></li>
+            <li><svg class="ico"><use href="#i-check"/></svg><span><b>Shared</b> — bring a friend in and you both start ahead.</span></li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DOWNLOAD -->
-  <section class="download-section" id="download">
-    <div class="section-inner">
-      <div class="section-tag" style="color: #86efac;">Available Now</div>
-      <h2 class="section-title">Start Reading Forward Today</h2>
-      <p class="section-sub">Download the app and join a community of readers who believe books are meant to be shared.</p>
-      <div class="store-badges">
-        <a href="https://play.google.com/store/apps/details?id=in.readforward.app" class="store-badge" target="_blank" rel="noopener">
-          <span class="store-badge-icon">▶</span>
-          <span class="store-badge-text">
-            <small>Get it on</small>
-            <strong>Google Play</strong>
-          </span>
-        </a>
-        <a href="#" class="store-badge" style="opacity: 0.6; cursor: default;">
-          <span class="store-badge-icon"></span>
-          <span class="store-badge-text">
-            <small>Coming soon on</small>
-            <strong>App Store</strong>
-          </span>
-        </a>
+  <!-- ══ DOWNLOAD ═════════════════════════════════════════════════════════ -->
+  <section id="download">
+    <div class="shell">
+      <div class="download-inner reveal">
+        <h2>Your next book is already nearby.</h2>
+        <p>It's on a shelf a few streets away, waiting for someone to ask. Join the readers turning a city full of closed books into one open library.</p>
+        <div class="stores on-dark">
+          <a class="btn btn--dark store" href="https://apps.apple.com/in/app/read-forward/id6767293889" target="_blank" rel="noopener">
+            <svg class="ico-store" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 14.25 3.51 5.63 9.05 5.35c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.05zM12.03 5.3C11.88 3.07 13.69 1.23 15.77 1c.29 2.58-2.34 4.5-3.74 4.3z"/></svg>
+            <span><small>Download on the</small><strong>App Store</strong></span>
+          </a>
+          <a class="btn btn--dark store" href="https://play.google.com/store/apps/details?id=in.readforward.app" target="_blank" rel="noopener">
+            <svg class="ico-store" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="3.6,1.8 13.8,12 3.6,22.2" fill="#00a0ff"/>
+              <polygon points="3.6,1.8 17.0,9.4 13.8,12" fill="#00e676"/>
+              <polygon points="17.0,9.4 20.8,12 17.0,14.6 13.8,12" fill="#ffce00"/>
+              <polygon points="3.6,22.2 17.0,14.6 13.8,12" fill="#ff3a44"/>
+            </svg>
+            <span><small>Get it on</small><strong>Google Play</strong></span>
+          </a>
+        </div>
+        <p class="dl-foot">On iPhone and Android · Read. Grow. Illuminate.</p>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ══ FOOTER ═══════════════════════════════════════════════════════════ -->
   <footer>
-    <div class="footer-brand">Read <span>Forward</span></div>
-    <div class="footer-links">
-      <a href="/">Home</a>
-      <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="mailto:support@readforward.in">Contact</a>
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <img src="assets/readforward-logo.png" alt="" width="34" height="34" />
+          <span class="w">Read <em>Forward</em></span>
+        </div>
+        <div class="foot-tag">Read. Grow. Illuminate.</div>
+        <p class="foot-blurb">The ecosystem for readers. Books that keep moving, habits that hold, and the people who make both worth it.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="#lending">Lend &amp; Borrow</a>
+        <a href="#habit">Reading Habit</a>
+        <a href="#community">Communities</a>
+        <a href="#litcoins">LitCoins</a>
+      </div>
+      <div class="foot-col">
+        <h4>Get the app</h4>
+        <a href="https://apps.apple.com/in/app/read-forward/id6767293889" target="_blank" rel="noopener">App Store</a>
+        <a href="https://play.google.com/store/apps/details?id=in.readforward.app" target="_blank" rel="noopener">Google Play</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="mailto:support@readforward.in">Contact us</a>
+      </div>
     </div>
-    <p>© 2026 Read Forward. All rights reserved. · Read. Share. Repeat.</p>
+    <div class="foot-bar">
+      <span>© 2026 Read Forward. All rights reserved.</span>
+      <span>Read. Grow. Illuminate.</span>
+    </div>
   </footer>
+
+  <script>
+    // Reveal-on-scroll — the app's screen-entrance spring, on the web.
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) ||
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        Array.prototype.forEach.call(els, function (el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      Array.prototype.forEach.call(els, function (el, i) {
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Read Forward",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "iOS, Android",
+    "url": "https://readforward.in/",
+    "description": "The ecosystem for readers — lend and borrow physical books with readers near you, build a reading habit with streaks, and bring your reading community along.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "installUrl": [
+      "https://apps.apple.com/in/app/read-forward/id6767293889",
+      "https://play.google.com/store/apps/details?id=in.readforward.app"
+    ]
+  }
+  </script>
 
 </body>
 </html>
